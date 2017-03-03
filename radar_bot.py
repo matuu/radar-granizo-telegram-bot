@@ -9,7 +9,7 @@ from telebot import types
 secret = open(".secret", "r")
 token = secret.read()
 secret.close()
-bot = telebot.TeleBot(token=token)
+bot = telebot.TeleBot(token=token.strip())
 
 RADAR_TYPE = ['Última imagen', 'Animación', 'Zoom Norte', 'Zoom Centro', 'Zoom Sur']
 
