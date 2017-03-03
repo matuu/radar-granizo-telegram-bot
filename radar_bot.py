@@ -5,8 +5,8 @@ from datetime import datetime
 import telebot
 from telebot import types
 
-
-secret = open(".secret", "r")
+base_dir = os.path.dirname(__file__)
+secret = open(os.path.join(base_dir, ".secret"), "r")
 token = secret.read()
 secret.close()
 bot = telebot.TeleBot(token=token.strip())
@@ -94,7 +94,7 @@ def _send_image(chat_id, image_path, caption):
 
 
 def send_image(chat_id, caption, image):
-    image_path = os.path.join("tmp", image)
+    image_path = os.path.join(base_dir, "tmp", image)
     if os.path.exists(image_path):
         # checar antiguedad
         img_exists = True
