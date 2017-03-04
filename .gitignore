@@ -1,3 +1,4 @@
 .secret
+.sentry_client
 tmp/
 .idea/

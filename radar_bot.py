@@ -4,12 +4,19 @@ import requests
 from datetime import datetime
 import telebot
 from telebot import types
+from raven import Client
+
 
 base_dir = os.path.dirname(__file__)
-secret = open(os.path.join(base_dir, ".secret"), "r")
-token = secret.read()
-secret.close()
+
+with open(os.path.join(base_dir, ".secret"), "r") as secret:
+    token = secret.read()
 bot = telebot.TeleBot(token=token.strip())
+
+# monitorear excepciones con sentry
+with open(os.path.join(base_dir, ".sentry_client"), "r") as sentry_url:
+    client = Client(sentry_url.read().strip())
+
 
 RADAR_TYPE = ['Última imagen', 'Animación', 'Zoom Norte', 'Zoom Centro', 'Zoom Sur']
 
@@ -118,4 +125,7 @@ def send_image(chat_id, caption, image):
         _send_image(chat_id, image_path, caption)
 
 
-bot.polling()
+try:
+    bot.polling()
+except Exception:
+    client.captureException()
