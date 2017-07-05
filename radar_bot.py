@@ -1,6 +1,7 @@
 import os
 import shutil
 import requests
+import time
 from datetime import datetime
 import telebot
 from telebot import types
@@ -125,7 +126,15 @@ def send_image(chat_id, caption, image):
         _send_image(chat_id, image_path, caption)
 
 
-try:
-    bot.polling()
-except Exception:
-    client.captureException()
+def telegram_polling():
+    try:
+        bot.polling()
+    except Exception:
+        client.captureException()
+        bot.stop_polling()
+        time.sleep(5)
+        telegram_polling()
+
+
+telegram_polling()
+
