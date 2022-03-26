@@ -2,3 +2,4 @@
 .sentry_client
 tmp/
 .idea/
+venv/
